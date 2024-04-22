@@ -17,12 +17,13 @@ def extract_text_from_pdf(pdf_file):
 
 def main():
     # Retrieve the API key from environment variable
-    st.write(os.environ)
-    openai_api_key = "sk-proj-yTG19BlNZr6wVZhcj20PT3BlbkFJUGp85Yrazrx6uwyryeW8"
-    embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
+    openai_api_key = os.environ.get('OPENAI_API_KEY')
+    if not openai_api_key:
+        st.error("API key not found. Please set the OPENAI_API_KEY environment variable.")
+        return
 
-    
     st.set_page_config(page_title='Ask your pdf')
+
     st.header('Ask your pdf')
 
     pdf_file = st.file_uploader("Upload your pdf", type="pdf")

@@ -3,11 +3,11 @@ from PyPDF2 import PdfReader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import FAISS
-import json
 from langchain.chains.question_answering import load_qa_chain
 from langchain.llms import OpenAI
 from googletrans import Translator
 import openai
+import os
 
 def extract_text_from_pdf(pdf_file):
     text = ""
@@ -17,10 +17,8 @@ def extract_text_from_pdf(pdf_file):
     return text
 
 def main():
-    with open('api_key.json', 'r') as key_file:
-        api_data = json.load(key_file)
-
-    OPENAI_API_KEY = api_data['api_key']
+    # Access the API key from GitHub Secrets
+    OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 
     st.set_page_config(page_title='Ask your pdf')
     st.header('Ask your pdf')

@@ -80,7 +80,6 @@ from PyPDF2 import PdfReader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import FAISS
-import json
 from langchain.chains.question_answering import load_qa_chain
 from langchain.llms import OpenAI
 from googletrans import Translator
@@ -93,6 +92,7 @@ def extract_text_from_pdf(pdf_file):
     return text
 
 def main():
+    # Hardcoded API key
     api_key = "sk-proj-mUFh9VAwG1abeJiLrvwJT3BlbkFJ5rtniMavQttDMbxW4Qwp"
 
     # Use the API key in your code
@@ -120,7 +120,7 @@ def main():
         chunks = text_splitter.split_text(text)
 
         # Create embeddings
-        embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
+        embeddings = OpenAIEmbeddings(openai_api_key=api_key)
         knowledge_pdf = FAISS.from_texts(chunks, embeddings)
 
         user_question = st.text_input("Ask a question about the pdf")
@@ -128,7 +128,7 @@ def main():
         if user_question:
             docs = knowledge_pdf.similarity_search(user_question)
 
-            llm = OpenAI(openai_api_key=OPENAI_API_KEY, model_name='gpt-3.5-turbo-0613')
+            llm = OpenAI(openai_api_key=api_key, model_name='gpt-3.5-turbo-0613')
             chain = load_qa_chain(llm, chain_type="stuff")
             response = chain.run(input_documents=docs, question=user_question)
             st.write(docs)

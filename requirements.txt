@@ -10,9 +10,8 @@ faiss-cpu==1.7.4
 altair<5
 pipreqs
 gspread==5.1.1
-
 docx2txt==0.8
 df2gspread==1.0.4
 pandas==1.2.5
-PyPDF2==1.26.0
+
 

@@ -1,28 +1,15 @@
-name: Deploy Application
-
-on:
-  push:
-    branches:
-      - main
-
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
         python-version: '3.8'
-    
     - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    
-    - name: Run Application
+      run: pip install -r requirements.txt
+    - name: Run Streamlit
       env:
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      run: |
-        python your_script.py
+      run: streamlit run your_script.py

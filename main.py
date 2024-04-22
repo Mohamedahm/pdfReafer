@@ -19,50 +19,53 @@ def main():
     # Hardcoded API key
     api_key = "sk-proj-mUFh9VAwG1abeJiLrvwJT3BlbkFJ5rtniMavQttDMbxW4Qwp"
 
-    # Use the API key in your code
-    openai.api_key = api_key
+    try:
+        # Use the API key in your code
+        openai.api_key = api_key
 
-    st.set_page_config(page_title='Ask your pdf')
-    st.header('Ask your pdf')
+        st.set_page_config(page_title='Ask your pdf')
+        st.header('Ask your pdf')
 
-    pdf_file = st.file_uploader("Upload your pdf", type="pdf")
+        pdf_file = st.file_uploader("Upload your pdf", type="pdf")
 
-    if pdf_file:
-        text = extract_text_from_pdf(pdf_file)
+        if pdf_file:
+            text = extract_text_from_pdf(pdf_file)
 
-        # Preprocess text
-        text = text.replace('\n', ' ')  # Remove line breaks
-        text = ' '.join(text.split())  # Remove extra whitespace
+            # Preprocess text
+            text = text.replace('\n', ' ')  # Remove line breaks
+            text = ' '.join(text.split())  # Remove extra whitespace
 
-        # Split text into chunks
-        text_splitter = CharacterTextSplitter(
-            separator='\n',
-            chunk_size=1000,
-            chunk_overlap=200,
-            length_function=len
-        )
-        chunks = text_splitter.split_text(text)
+            # Split text into chunks
+            text_splitter = CharacterTextSplitter(
+                separator='\n',
+                chunk_size=1000,
+                chunk_overlap=200,
+                length_function=len
+            )
+            chunks = text_splitter.split_text(text)
 
-        # Create embeddings
-        embeddings = OpenAIEmbeddings(openai_api_key=api_key)
-        knowledge_pdf = FAISS.from_texts(chunks, embeddings)
+            # Create embeddings
+            embeddings = OpenAIEmbeddings(openai_api_key=api_key)
+            knowledge_pdf = FAISS.from_texts(chunks, embeddings)
 
-        user_question = st.text_input("Ask a question about the pdf")
+            user_question = st.text_input("Ask a question about the pdf")
 
-        if user_question:
-            docs = knowledge_pdf.similarity_search(user_question)
+            if user_question:
+                docs = knowledge_pdf.similarity_search(user_question)
 
-            llm = OpenAI(openai_api_key=api_key, model_name='gpt-3.5-turbo-0613')
-            chain = load_qa_chain(llm, chain_type="stuff")
-            response = chain.run(input_documents=docs, question=user_question)
-            st.write(docs)
-            # Display the context and answer
-            st.write("Question:", user_question)
-            st.write("Context:")
-            for doc in docs:
-                st.write(doc)
-            st.write("Predicted Answer:")
-            st.write(response)
+                llm = OpenAI(openai_api_key=api_key, model_name='gpt-3.5-turbo-0613')
+                chain = load_qa_chain(llm, chain_type="stuff")
+                response = chain.run(input_documents=docs, question=user_question)
+                st.write(docs)
+                # Display the context and answer
+                st.write("Question:", user_question)
+                st.write("Context:")
+                for doc in docs:
+                    st.write(doc)
+                st.write("Predicted Answer:")
+                st.write(response)
+    except openai.AuthenticationError as auth_error:
+        st.error(f"AuthenticationError: {auth_error}")
 
 if __name__ == '__main__':
     main()

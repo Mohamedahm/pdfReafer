@@ -11,5 +11,5 @@ pipreqs
 docx2txt==0.8
 df2gspread==1.0.4
 pandas==1.2.5
-PyPDF2==1.26.0
+PyPDF2
 googletrans 

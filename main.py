@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 from PyPDF2 import PdfReader
 from langchain.text_splitter import CharacterTextSplitter
@@ -15,8 +16,8 @@ def extract_text_from_pdf(pdf_file):
     return text
 
 def main():
-    # Pass the API key explicitly as a named parameter
-    openai_api_key = "sk-proj-6mO1I3TS3iu1R9zRqYkYT3BlbkFJ5agdcqTFo1TX50Weryfn"
+    # Retrieve the API key from environment variable
+    openai_api_key = os.environ.get('OPENAI_API_KEY')
     
     st.set_page_config(page_title='Ask your pdf')
     st.header('Ask your pdf')

@@ -19,6 +19,7 @@ def main():
     # Retrieve the API key from environment variable
     #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
     st.write(os.environ)
+    
     openai_api_key = os.environ.get('OPENAI_API_KEY')
     if not openai_api_key:
         st.error("API key not found. Please set the OPENAI_API_KEY environment variable.")

@@ -7,6 +7,7 @@ from langchain.chains.question_answering import load_qa_chain
 from langchain.llms import OpenAI
 from googletrans import Translator
 import openai
+import json
 
 def extract_text_from_pdf(pdf_file):
     text = ""

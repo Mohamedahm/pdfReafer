@@ -93,11 +93,10 @@ def extract_text_from_pdf(pdf_file):
     return text
 
 def main():
-    with open('api_key.json', 'r') as key_file:
-        api_data = json.load(key_file)
+    api_key = "sk-proj-mUFh9VAwG1abeJiLrvwJT3BlbkFJ5rtniMavQttDMbxW4Qwp"
 
-    OPENAI_API_KEY = api_data['api_key']
-    
+    # Use the API key in your code
+    openai.api_key = api_key
 
     st.set_page_config(page_title='Ask your pdf')
     st.header('Ask your pdf')

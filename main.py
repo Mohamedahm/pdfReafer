@@ -6,8 +6,6 @@ from langchain.vectorstores import FAISS
 from langchain.chains.question_answering import load_qa_chain
 from langchain.llms import OpenAI
 from googletrans import Translator
-import openai
-import os
 
 def extract_text_from_pdf(pdf_file):
     text = ""
@@ -17,9 +15,9 @@ def extract_text_from_pdf(pdf_file):
     return text
 
 def main():
-    # Access the API key from GitHub Secrets
-    OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
-
+    # Pass the API key explicitly as a named parameter
+    openai_api_key = "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"
+    
     st.set_page_config(page_title='Ask your pdf')
     st.header('Ask your pdf')
 
@@ -42,7 +40,7 @@ def main():
         chunks = text_splitter.split_text(text)
 
         # Create embeddings
-        embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
+        embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
         knowledge_pdf = FAISS.from_texts(chunks, embeddings)
 
         user_question = st.text_input("Ask a question about the pdf")
@@ -50,7 +48,7 @@ def main():
         if user_question:
             docs = knowledge_pdf.similarity_search(user_question)
 
-            llm = OpenAI(openai_api_key=OPENAI_API_KEY, model_name='gpt-3.5-turbo-0613')
+            llm = OpenAI(openai_api_key=openai_api_key, model_name='gpt-3.5-turbo-0613')
             chain = load_qa_chain(llm, chain_type="stuff")
             response = chain.run(input_documents=docs, question=user_question)
             st.write(docs)

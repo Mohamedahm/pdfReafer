@@ -26,7 +26,7 @@ def main():
 
     try:
         # Use the API key in your code
-        openai.api_key = api_key
+        api_data.api_key = api_key
 
         st.set_page_config(page_title='Ask your pdf')
         st.header('Ask your pdf')

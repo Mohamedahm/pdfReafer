@@ -16,7 +16,7 @@ def extract_text_from_pdf(pdf_file):
 
 def main():
     # Pass the API key explicitly as a named parameter
-    openai_api_key = "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"
+    openai_api_key = "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"
     
     st.set_page_config(page_title='Ask your pdf')
     st.header('Ask your pdf')

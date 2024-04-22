@@ -17,7 +17,7 @@ def extract_text_from_pdf(pdf_file):
 
 def main():
     # Hardcoded API key
-    api_key = "sk-proj-EITThEUxZOkDWjigkhq2T3BlbkFJvnbpcECQhD5bBZKU0mXQ"
+    api_key = "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"
  
 
     try:

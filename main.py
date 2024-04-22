@@ -17,7 +17,10 @@ def extract_text_from_pdf(pdf_file):
 
 def main():
     # Hardcoded API key
-    api_key = "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"
+    with open('api_key.json', 'r') as key_file:
+        api_data = json.load(key_file)
+
+    OPENAI_API_KEY = api_data['api_key']
  
 
     try:

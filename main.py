@@ -43,7 +43,7 @@ def main():
         user_question = st.text_input("Ask a question about the pdf")
         if user_question:
             docs = knowledge_pdf.similarity_search(user_question)
-            llm = OpenAI(openai_api_key=openai_api_key, model_name='gpt-3.5-turbo-0613')
+            llm = OpenAI(openai_api_key=openai_api_key, model_name='text-embedding-3-small')
             chain = load_qa_chain(llm, chain_type="stuff")
             response = chain.run(input_documents=docs, question=user_question)
 

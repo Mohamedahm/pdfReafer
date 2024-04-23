@@ -25,7 +25,6 @@ def main():
         st.error("API key not found. Please set the OPENAI_API_KEY environment variable.")
         return
 
-    Configuration.set_api_key(openai_api_key)  # Hypothetical method to set API key globally
 
     pdf_file = st.file_uploader("Upload your pdf", type="pdf")
     if pdf_file:

@@ -5,7 +5,6 @@ from langchain.text_splitter import CharacterTextSplitter  # Assuming this is st
 from langchain_community.embeddings.openai import OpenAIEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_community.llms import OpenAI
-from langchain_community.chains.question_answering import load_qa_chain
 from googletrans import Translator
 
 def extract_text_from_pdf(pdf_file):

@@ -11,13 +11,13 @@ def extract_text_from_pdf(pdf_file):
     text = ""
     pdf_reader = PdfReader(pdf_file)
     for page in pdf_reader.pages:
-        text += page.extract_text() if page.extract_text() else ''
+        extracted_text = page.extract_text() or ''
+        # Additional cleaning could be done here if necessary
+        text += extracted_text
     return text
 
-def split_into_chunks(text, max_length=1000):
-    """
-    Splits the text into chunks of a specified max_length.
-    """
+def split_into_chunks(text, max_length=4096):
+    # Smarter chunking based on context could be implemented
     sentences = text.split('.')
     current_chunk = ""
     chunks = []
@@ -44,16 +44,16 @@ def main():
     if pdf_file:
         text = extract_text_from_pdf(pdf_file)
         text = ' '.join(text.replace('\n', ' ').split())
-        chunks = split_into_chunks(text, max_length=4096)  # Adjust based on your model's token limit
+        chunks = split_into_chunks(text)
 
         embeddings = OpenAIEmbeddings(api_key=openai_api_key)
         knowledge_pdf = FAISS.from_texts(chunks, embeddings)
 
         user_question = st.text_input("Ask a question about the pdf")
         if user_question:
-            docs = knowledge_pdf.similarity_search(user_question, top_k=5)  # Adjust top_k as needed
+            docs = knowledge_pdf.similarity_search(user_question, top_k=5)
             llm = OpenAI(api_key=openai_api_key, model_name='gpt-3.5-turbo-0613')
-            chain = load_qa_chain(llm, chain_type="map_rerank")  # Using 'map_rerank' as chain type
+            chain = load_qa_chain(llm, chain_type="map_rerank")
             response = chain.run(input_documents=docs, question=user_question)
 
             st.write("Question:", user_question)

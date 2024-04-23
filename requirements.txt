@@ -1,6 +1,6 @@
 
 langchain
-openai
+openai==0.28
 chromadb
 tiktoken
 python-dotenv==1.0.0

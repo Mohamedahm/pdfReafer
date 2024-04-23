@@ -1,4 +1,4 @@
-
+-U langchain-community
 langchain
 openai==0.28
 chromadb

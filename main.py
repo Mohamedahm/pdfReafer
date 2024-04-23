@@ -2,7 +2,7 @@ import os
 import streamlit as st
 from PyPDF2 import PdfReader
 from langchain.text_splitter import CharacterTextSplitter
-from langchain_community import  OpenAIEmbeddings, FAISS, OpenAI, load_qa_chain
+from langchain_community import   FAISS, OpenAI, load_qa_chain
 from googletrans import Translator
 
 def extract_text_from_pdf(pdf_file):

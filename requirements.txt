@@ -1,3 +1,4 @@
+langchain_community.chains
 langchain-community
 langchain
 openai==0.28

@@ -22,6 +22,7 @@ def main():
     
     
     openai_api_key = st.secrets["OPENAI_API_KEY"]
+    OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
     if not openai_api_key:
         st.error("API key not found. Please set the OPENAI_API_KEY environment variable.")
         return

@@ -53,7 +53,7 @@ def main():
         if user_question:
             docs = knowledge_pdf.similarity_search(user_question, top_k=5)  # Adjust top_k as needed
             llm = OpenAI(api_key=openai_api_key, model_name='gpt-3.5-turbo-0613')
-            chain = load_qa_chain(llm, chain_type="extractive_qa")
+            chain = load_qa_chain(llm, chain_type="map_rerank")  # Using 'map_rerank' as chain type
             response = chain.run(input_documents=docs, question=user_question)
 
             st.write("Question:", user_question)

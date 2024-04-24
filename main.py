@@ -14,7 +14,7 @@ def extract_text_from_pdf(pdf_file):
     text = ""
     pdf_reader = PdfReader(pdf_file)
     for page in pdf_reader.pages:
-        extracted += page.extract_text()
+        extracted_text += page.extract_text()
         text += extracted_text
     return text
 

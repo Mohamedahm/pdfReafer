@@ -12,30 +12,26 @@ def extract_text_from_pdf(pdf_file):
     pdf_reader = PdfReader(pdf_file)
     for page in pdf_reader.pages:
         extracted_text = page.extract_text() or ''
-        # Additional cleaning could be done here if necessary
-        text += extracted_text
-    return text
+        # Normalize whitespace and remove line breaks within text
+        extracted_text = ' '.join(extracted_text.replace('\n', ' ').split())
+        text += extracted_text + ' '
+    return text.strip()
 
 def split_into_chunks(text, max_length=4096):
-    # Smarter chunking based on context could be implemented
-    sentences = text.split('.')
-    current_chunk = ""
-    chunks = []
-    for sentence in sentences:
-        if len(current_chunk) + len(sentence) + 1 < max_length:
-            current_chunk += sentence + '.'
-        else:
-            chunks.append(current_chunk.strip())
-            current_chunk = sentence + '.'
-    if current_chunk:
-        chunks.append(current_chunk.strip())
-    return chunks
+    splitter = CharacterTextSplitter(max_length=max_length)
+    return splitter.split(text)
+
+def initialize_knowledge_base(text, api_key):
+    chunks = split_into_chunks(text)
+    embeddings = OpenAIEmbeddings(api_key=api_key)
+    knowledge_base = FAISS.from_texts(chunks, embeddings)
+    return knowledge_base
 
 def main():
     st.set_page_config(page_title='Ask your pdf')
     st.header('Ask your pdf')
 
-    openai_api_key = os.getenv('OPENAI_API_KEY') or st.secrets.get("OPENAI_API_KEY")
+    openai_api_key = os.getenv('OPENAI_API_KEY', st.secrets.get("OPENAI_API_KEY"))
     if not openai_api_key:
         st.error("API key not found. Please set the OPENAI_API_KEY environment variable.")
         return
@@ -43,11 +39,11 @@ def main():
     pdf_file = st.file_uploader("Upload your pdf", type="pdf")
     if pdf_file:
         text = extract_text_from_pdf(pdf_file)
-        text = ' '.join(text.replace('\n', ' ').split())
-        chunks = split_into_chunks(text)
+        if not text:
+            st.error("The PDF appears to be empty or text could not be extracted.")
+            return
 
-        embeddings = OpenAIEmbeddings(api_key=openai_api_key)
-        knowledge_pdf = FAISS.from_texts(chunks, embeddings)
+        knowledge_pdf = initialize_knowledge_base(text, openai_api_key)
 
         user_question = st.text_input("Ask a question about the pdf")
         if user_question:

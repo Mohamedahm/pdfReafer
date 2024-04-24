@@ -60,7 +60,8 @@ def main():
         if user_question:
 
             docs = knowledge_pdf.similarity_search(user_question)
-            llm = OpenAI(api_key=OPENAI_API_KEY, model_name='gpt-3.5-turbo-0613')
+            #llm = OpenAI(api_key=OPENAI_API_KEY, model_name='gpt-3.5-turbo-0613')
+            llm = OpenAI(api_key=openai_api_key, model_name='gpt-3.5-turbo-0613')
             chain = load_qa_chain(llm, chain_type="stuff")
             response = chain.run(input_documents=docs, question=user_question)
 

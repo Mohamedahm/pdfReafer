@@ -10,11 +10,13 @@ from googletrans import Translator
 import os
 
 
+
 def extract_text_from_pdf(pdf_file):
     text = ""
     pdf_reader = PdfReader(pdf_file)
     for page in pdf_reader.pages:
-        extracted_text += page.extract_text()
+        extracted_text = page.extract_text() or ''
+        # Additional cleaning could be done here if necessary
         text += extracted_text
     return text
 

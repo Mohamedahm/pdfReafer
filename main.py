@@ -69,7 +69,7 @@ def main():
 
         # Create embeddings
 
-        embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
+        embeddings = OpenAIEmbeddings(api_key=openai_api_key)
 
         knowledge_pdf = FAISS.from_texts(chunks, embeddings)
 

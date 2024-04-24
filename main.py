@@ -1,7 +1,7 @@
 import tensorflow as tf
 import tensorflow_hub as hub
 import tensorflow_text  # Needed for some TensorFlow Hub models
-
+import streamlit
 def load_model():
     """Load a pre-trained T5 model from TensorFlow Hub."""
     model = hub.load("https://tfhub.dev/google/t5-large-ssm-nq/1")

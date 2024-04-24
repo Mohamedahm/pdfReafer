@@ -60,18 +60,23 @@ def main():
         knowledge_pdf = initialize_knowledge_base(text, openai_api_key)
 
         user_question = st.text_input("Ask a question about the pdf")
-        if user_question:
+       if user_question:
             docs = knowledge_pdf.similarity_search(user_question, top_k=5)
             llm = OpenAI(api_key=openai_api_key, model_name='gpt-3.5-turbo-0613')
             chain = load_qa_chain(llm, chain_type="map_rerank")
             response = chain.run(input_documents=docs, question=user_question)
-
+        
             st.write("Question:", user_question)
             st.write("Context:")
             for doc in docs:
                 st.write(doc)
-            st.write("Predicted Answer:")
-            st.write(response)
+        
+            if response:
+                st.write("Predicted Answer:")
+                st.write(response)
+            else:
+                st.error("Unable to generate a valid answer. Please try rephrasing your question or ask about another aspect of the document.")
+
 
 if __name__ == '__main__':
     main()

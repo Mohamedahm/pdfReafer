@@ -18,8 +18,22 @@ def extract_text_from_pdf(pdf_file):
     return text.strip()
 
 def split_into_chunks(text, max_length=4096):
-    splitter = CharacterTextSplitter(max_length=max_length)
-    return splitter.split(text)
+    # Break the text into sentences and then build chunks that are smaller than max_length
+    sentences = text.split('.')
+    current_chunk = ""
+    chunks = []
+    for sentence in sentences:
+        sentence += '.'  # Add the period back to each sentence
+        if len(current_chunk) + len(sentence) <= max_length:
+            current_chunk += sentence
+        else:
+            if current_chunk:  # Avoid adding empty strings
+                chunks.append(current_chunk.strip())
+            current_chunk = sentence
+    if current_chunk:  # Add the last chunk if it's not empty
+        chunks.append(current_chunk.strip())
+    return chunks
+
 
 def initialize_knowledge_base(text, api_key):
     chunks = split_into_chunks(text)

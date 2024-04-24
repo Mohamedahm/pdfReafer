@@ -85,7 +85,7 @@ def main():
 
 
 
-            llm = OpenAI(openai_api_key=OPENAI_API_KEY, model_name='gpt-3.5-turbo-0613')
+            llm = OpenAI(api_key=OPENAI_API_KEY, model_name='gpt-3.5-turbo-0613')
 
             chain = load_qa_chain(llm, chain_type="stuff")
 

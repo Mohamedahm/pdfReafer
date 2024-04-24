@@ -73,9 +73,9 @@ def main():
 
             #st.write("Context:")
 
-            for doc in docs:
+            # for doc in docs:
 
-                st.write(doc)
+            #     st.write(doc)
 
             st.write("Predicted Answer:")
 

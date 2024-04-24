@@ -65,13 +65,13 @@ def main():
             chain = load_qa_chain(llm, chain_type="stuff")
             response = chain.run(input_documents=docs, question=user_question)
 
-            st.write(docs)
+            
 
             # Display the context and answer
 
             st.write("Question:", user_question)
 
-            st.write("Context:")
+            #st.write("Context:")
 
             for doc in docs:
 
@@ -80,6 +80,7 @@ def main():
             st.write("Predicted Answer:")
 
             st.write(response)
+            st.write(docs)
 
 
 

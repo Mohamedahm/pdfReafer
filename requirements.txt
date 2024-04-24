@@ -15,6 +15,6 @@ pandas==1.2.5
 PyPDF2
 googletrans 
 sentencepiece
-tensorflow==2.9.0
-tensorflow-text==2.9.0
+tensorflow==2.15.0
+tensorflow-text==2.15.0
 tensorflow-hub

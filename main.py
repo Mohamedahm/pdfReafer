@@ -1,12 +1,13 @@
 import tensorflow as tf
 import tensorflow_hub as hub
-import tensorflow_text  # Required for TensorFlow Hub models that use text
+import tensorflow_text  # Necessary for text pre-processing in some TF Hub models
 import streamlit as st
 
 def load_model():
     """Load a pre-trained T5 model from TensorFlow Hub."""
     try:
-        model = hub.load("https://tfhub.dev/google/t5-large-ssm-nq/1")
+        # Replace the URL with the correct one from TensorFlow Hub
+        model = hub.load("https://tfhub.dev/google/t5-small/1")
         return model
     except Exception as e:
         st.error(f"Failed to load model: {e}")
